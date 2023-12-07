@@ -1,5 +1,5 @@
+using Clemtek.Controller.Player.Attributes;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,18 +9,17 @@ namespace Clemtek.Controller.Player.Movement
     {
         [SerializeField] float speed = 3f;
         [SerializeField] float sprintModifier = 1.5f;
-        [SerializeField] float iTime = 3f;
+        [SerializeField] float jumpTime = .5f;
 
         public bool IsSprinting { get; private set; }
-        public bool IsInvincible { get; private set; }
 
-        public bool CanMove { get; private set; }
+        public bool CanMove { get; set; }
         public bool IsMoving => !Mathf.Approximately(0, direction.magnitude);
         private Vector2 direction;
         private Animator animator;
         private SpriteRenderer spriteRenderer;
         private Rigidbody2D rb;
-        private float iClock = 0f;
+        private Health health;
 
         // Start is called before the first frame update
         void Start()
@@ -30,8 +29,8 @@ namespace Clemtek.Controller.Player.Movement
             spriteRenderer = GetComponent<SpriteRenderer>();
             rb = GetComponent<Rigidbody2D>();
             IsSprinting = false;
-            IsInvincible = false;
             CanMove = true;
+            health = GetComponent<Health>();
         }
 
         // Update is called once per frame
@@ -48,18 +47,6 @@ namespace Clemtek.Controller.Player.Movement
                 else if (direction.x > 0)
                     spriteRenderer.flipX = false;
             }
-
-            if (IsInvincible)
-            {
-                spriteRenderer.enabled = (int)((iClock - (int)iClock) * 10) % 2 == 0;
-                iClock += Time.deltaTime;
-                if(iClock >= iTime)
-                {
-                    iClock = 0f;
-                    IsInvincible = false;
-                    spriteRenderer.enabled = true;
-                }
-            }
         }
 
         public void Vertical(InputAction.CallbackContext context)
@@ -72,6 +59,21 @@ namespace Clemtek.Controller.Player.Movement
         {
             float xDir = context.ReadValue<float>();
             direction.x = xDir;
+        }
+
+        public void Crouching(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                CanMove = false;
+                animator.SetBool("Crouching", true);
+                rb.velocity = Vector2.zero;
+            }
+            else if (context.canceled)
+            {
+                CanMove = true;
+                animator.SetBool("Crouching", false);
+            }
         }
 
         public void Recoil(Vector2 forceVector)
@@ -90,15 +92,14 @@ namespace Clemtek.Controller.Player.Movement
             yield return null;
             CanMove = false;
             rb.velocity = Vector2.zero;
-            IsInvincible = true;
-            animator.SetTrigger("Hurt");
+            if(!health.IsDead) animator.SetTrigger("Hurt");
 
             yield return new WaitForSeconds(.05f);
             rb.AddForce(forceVector);
 
             yield return new WaitForSeconds(.5f);
             rb.velocity = Vector2.zero;
-            CanMove = true;
+            CanMove = !health.IsDead;
         }
     }
 }

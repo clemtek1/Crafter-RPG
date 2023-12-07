@@ -27,5 +27,15 @@ namespace Clemtek.Controller.Player.Attributes
                 canRegen = true;
             }
         }
+
+        new public bool LoseAttribute(float value)
+        {
+            if (this.value > value)
+            {
+                base.LoseAttribute(value);
+                return true;
+            }
+            return false;
+        }
     }
 }

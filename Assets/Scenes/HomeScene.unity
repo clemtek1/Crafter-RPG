@@ -3928,7 +3928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   sprintModifier: 1.5
-  iTime: 3
+  jumpTime: 0.5
 --- !u!114 &1790399867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4019,6 +4019,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 441e3946-5303-4694-bfd7-9e9094057651
     m_ActionName: Actions/Sprint[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1790399865}
+        m_TargetAssemblyTypeName: Clemtek.Controller.Player.Movement.Movement, Assembly-CSharp
+        m_MethodName: Crouching
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d5036b44-904b-4bf7-8773-dce28f8cf130
+    m_ActionName: Actions/Crouch[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1790399868}
+        m_TargetAssemblyTypeName: Clemtek.Controller.Player.Attack.Attack, Assembly-CSharp
+        m_MethodName: FlyKick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 390d7b79-17c8-4b6d-a330-99cf18f91bc0
+    m_ActionName: Actions/FlyKick[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1790399868}
+        m_TargetAssemblyTypeName: Clemtek.Controller.Player.Attack.Attack, Assembly-CSharp
+        m_MethodName: Strike
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 782ba352-8ea1-48a1-b21a-fa12c8fd4b96
+    m_ActionName: Actions/Strike[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Actions
@@ -4036,6 +4084,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb64b9293cacbe4ab2f04e837b69663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackStamina: 2
+  flyKickStamina: 5
+  strikeStamina: 7
+  attackCooldown: 0.5
 --- !u!114 &1790399869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4050,7 +4102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiBar: {fileID: 1671101801}
   maxValue: 15
-  regenValue: 0.2
+  regenValue: 1.5
   sprintLossRate: 1
 --- !u!114 &1790399870
 MonoBehaviour:
@@ -4068,6 +4120,7 @@ MonoBehaviour:
   maxValue: 10
   regenValue: 1
   timeToRegen: 5
+  iTime: 3
 --- !u!114 &1790399871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4139,7 +4192,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!1 &1854522392

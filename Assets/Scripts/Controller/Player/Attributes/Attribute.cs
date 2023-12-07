@@ -10,7 +10,7 @@ namespace Clemtek.Controller.Player.Attributes
         [SerializeField] int maxValue;
         [SerializeField] float regenValue;
 
-        private float value;
+        protected float value;
         protected bool canRegen = false;
 
         protected virtual void Start()

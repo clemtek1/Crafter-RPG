@@ -4,23 +4,26 @@ using UnityEngine;
 
 namespace Clemtek.Controller.Player.Movement
 {
+    [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Movement))]
     public class Triggers : MonoBehaviour
     {
 
+        Health health;
         Movement movement;
 
         void Start()
         {
+            health = GetComponent<Health>();
             movement = GetComponent<Movement>();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerStay2D(Collider2D collision)
         {
             switch(collision.tag)
             {
                 case "Enemy":
-                    if(!movement.IsInvincible)
+                    if(!health.IsInvincible && !health.IsDead)
                         TakeDamage(collision.gameObject.GetComponent<Enemy>());
                     break;
             }
